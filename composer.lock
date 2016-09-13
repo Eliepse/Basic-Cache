@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "b2756b12f687d2236dfbbce6f4006777",
+    "content-hash": "c5a05f2cbe09f2a9e3d29304659af7be",
+    "packages": [
+        {
+            "name": "eliepse/config-manager",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Eliepse/Config-Manager.git",
+                "reference": "e39d6839403111291633186d463cf33b180507dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Eliepse/Config-Manager/zipball/e39d6839403111291633186d463cf33b180507dc",
+                "reference": "e39d6839403111291633186d463cf33b180507dc",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "App\\": "App/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Elie Meignan",
+                    "email": "contact@eliepse.fr"
+                }
+            ],
+            "description": "A Simple config manager in PHP",
+            "support": {
+                "source": "https://github.com/Eliepse/Config-Manager/tree/0.1.0",
+                "issues": "https://github.com/Eliepse/Config-Manager/issues"
+            },
+            "time": "2016-09-13 22:26:29"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
