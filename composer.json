@@ -1,0 +1,16 @@
+{
+    "name": "eliepse/basic-cache",
+    "description": "A very simple cache system",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Elie Meignan",
+            "email": "contact@eliepse.fr"
+        }
+    ],
+    "require": {},
+	"autoload": {
+		"psr-4": {"App\\": "App/"}
+	}
+}
