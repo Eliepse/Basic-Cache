@@ -9,22 +9,22 @@
     "packages": [
         {
             "name": "eliepse/config-manager",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Eliepse/Config-Manager.git",
-                "reference": "e39d6839403111291633186d463cf33b180507dc"
+                "reference": "699bf1a6127529d41b7ceb21a8fbd4aa1ddb7a23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Eliepse/Config-Manager/zipball/e39d6839403111291633186d463cf33b180507dc",
-                "reference": "e39d6839403111291633186d463cf33b180507dc",
+                "url": "https://api.github.com/repos/Eliepse/Config-Manager/zipball/699bf1a6127529d41b7ceb21a8fbd4aa1ddb7a23",
+                "reference": "699bf1a6127529d41b7ceb21a8fbd4aa1ddb7a23",
                 "shasum": ""
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "App\\": "App/"
+                    "Eliepse\\Config\\": "App/"
                 }
             },
             "license": [
@@ -38,10 +38,10 @@
             ],
             "description": "A Simple config manager in PHP",
             "support": {
-                "source": "https://github.com/Eliepse/Config-Manager/tree/0.1.0",
+                "source": "https://github.com/Eliepse/Config-Manager/tree/0.1.1",
                 "issues": "https://github.com/Eliepse/Config-Manager/issues"
             },
-            "time": "2016-09-13 22:26:29"
+            "time": "2016-09-13 22:45:49"
         }
     ],
     "packages-dev": [],

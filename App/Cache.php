@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App;
+namespace Eliepse\Cache;
 
 
-use App\ConfigFactory;
 use DateInterval;
+use Eliepse\Config\ConfigFactory;
 
 class Cache implements CacheInterface
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App;
+namespace Eliepse\Cache;
 
 
 use DateInterval;
