@@ -16,7 +16,7 @@ class Cache implements CacheInterface
 	static public $_force_read = 0x6;
 	static protected $_instances;
 
-	protected $path_base = __DIR__ . '/../../';
+	protected $path_base = __DIR__ . '/../../../../';
 	protected $files_cache;
 	protected $cache_path;
 	protected $cache_config;
