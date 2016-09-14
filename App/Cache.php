@@ -78,9 +78,9 @@ class Cache implements CacheInterface
 
 			if (is_callable($toWrite)) {
 
-				$foo_data = $toWrite($data);
+				$foo_data = $toWrite($this->getFileCache($name));
 
-				if($foo_data & self::$_force_read)
+				if ($foo_data & self::$_force_read)
 					$data = $this->getFileCache($name)->getData();
 
 				if (!($foo_data & self::$_no_write)) {
