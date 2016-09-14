@@ -14,6 +14,7 @@ class Cache implements CacheInterface
 	static public $_no_write = 0x2;
 	static public $_no_delete = 0x4;
 	static public $_force_read = 0x6;
+	static public $_return_class = 0x8;
 	static protected $_instances;
 
 	protected $path_base = __DIR__ . '/../../../../';
@@ -53,7 +54,7 @@ class Cache implements CacheInterface
 			return null;
 		}
 
-		return $cache_file->getData();
+		return ($flags & self::$_return_class) ? $cache_file : $cache_file->getData();
 	}
 
 
@@ -64,7 +65,7 @@ class Cache implements CacheInterface
 		if (!($flags & self::$_read_only || $flags & self::$_no_write))
 			$cache_file->setData($value);
 
-		return $cache_file->getData();
+		return ($flags & self::$_return_class) ? $cache_file : $cache_file->getData();
 	}
 
 
@@ -99,12 +100,12 @@ class Cache implements CacheInterface
 	/**
 	 * Remove a cache element
 	 *
-	 * @param string $cache
+	 * @param string $name
 	 */
-	public function remove($cache)
+	public function remove($name)
 	{
-		$this->getFileCache($cache)->delete();
-		unset($this->files_cache[ $cache ]);
+		$this->getFileCache($name)->delete();
+		unset($this->files_cache[ $name ]);
 	}
 
 
@@ -116,6 +117,21 @@ class Cache implements CacheInterface
 			$expire = $this->cache_config->default_expired_time;
 
 		return $this->isCacheFileExpired($cache_file, $expire);
+	}
+
+
+	/**
+	 * @param $filename string
+	 * @return CacheFile
+	 */
+	public function getFileCache($filename)
+	{
+		if (array_key_exists($filename, $this->files_cache))
+			return $this->files_cache[ $filename ];
+
+		$this->files_cache[ $filename ] = new CacheFile($this->cache_path . $filename);
+
+		return $this->files_cache[ $filename ];
 	}
 
 
@@ -183,22 +199,8 @@ class Cache implements CacheInterface
 		}
 
 	}
-
-
-	/**
-	 * @param $filename string
-	 * @return CacheFile
-	 */
-	public function getFileCache($filename)
-	{
-		if (array_key_exists($filename, $this->files_cache))
-			return $this->files_cache[ $filename ];
-
-		$this->files_cache[ $filename ] = new CacheFile($this->cache_path . $filename);
-
-		return $this->files_cache[ $filename ];
-	}
 	
+
 	final private function __clone()
 	{
 	}
