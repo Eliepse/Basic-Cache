@@ -23,6 +23,14 @@ return [
 		'default' => 'cache/',
 	],
 
+	/*
+	 * The default value for the access
+	 * right of directory automatically created
+	 *
+	 * */
+
+	'default_chmod' => 0700,
+
 
 	/*
 	 * Write down the extension you want
@@ -32,7 +40,7 @@ return [
 	 *
 	 * */
 
-	'cache_extension' => '.cache',
+	'cache_extension'      => '.cache',
 
 	
 	/*
