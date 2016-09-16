@@ -16,10 +16,11 @@ class Cache implements CacheInterface
 	static public $_force_read = 0x6;
 	static public $_return_class = 0x8;
 	
-	protected $cache_config;
-	protected $cache_path = '';
+	protected $_config;
 	protected $type = '';
-	protected $chmod_cache_folder = 0700;
+	protected $folder_path = '';
+	protected $chmod_folder = 0700;
+	
 	
 	
 	/**
@@ -29,12 +30,10 @@ class Cache implements CacheInterface
 	 */
 	public function __construct($url = '')
 	{
-		$this->cache_config = ConfigFactory::getConfig('cache');
+		$this->_config = ConfigFactory::getConfig('cache');
 		
 		if (!empty($url) && is_string($url))
-			$this->cache_path = $url;
-		else
-			$this->cache_path = '';
+			$this->folder_path = $url;
 	}
 	
 	
@@ -116,7 +115,7 @@ class Cache implements CacheInterface
 		$cache_file = $this->getFileCache($name);
 		
 		if (is_null($expire))
-			$expire = $this->cache_config->default_expired_time;
+			$expire = $this->_config->default_expired_time;
 		
 		return $this->isCacheFileExpired($cache_file, $expire);
 	}
@@ -130,15 +129,15 @@ class Cache implements CacheInterface
 	{
 		return CacheFileFactory::getInstance()->getCacheFile($filename,
 			$this->type,
-			$this->cache_path,
-			$this->chmod_cache_folder);
+			$this->folder_path,
+			$this->chmod_folder);
 	}
 	
 	
 	protected function isCacheFileValid(CacheFile $cache_file, $expire, $flags = null)
 	{
 		if (is_null($expire))
-			$expire = $this->cache_config->default_expired_time;
+			$expire = $this->_config->default_expired_time;
 		
 		if ($expire !== false && ($expire === true || $this->isCacheFileExpired($cache_file, $expire)))
 			return false;
@@ -158,7 +157,7 @@ class Cache implements CacheInterface
 		if (!is_int($sec_interval))
 			return false;
 		
-		switch ($this->cache_config->mode) {
+		switch ($this->_config->mode) {
 			case 'production' :
 				return $cache_file->isExpired(new DateInterval('PT' . $sec_interval . 'S'));
 				break;
