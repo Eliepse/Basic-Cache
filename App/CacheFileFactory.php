@@ -19,6 +19,9 @@ class CacheFileFactory
 	private $cache_config_paths;
 	
 	
+	/**
+	 * CacheFileFactory constructor.
+	 */
 	private function __construct()
 	{
 		$this->cache_config = ConfigFactory::getConfig('cache');
@@ -33,6 +36,10 @@ class CacheFileFactory
 	}
 	
 	
+	/**
+	 * Return the instance of CacheFileFactory (singleton)
+	 * @return CacheFileFactory The singleton instance of CacheFileFactory
+	 */
 	static public function getInstance()
 	{
 		if (empty(self::$_instance))
@@ -43,15 +50,15 @@ class CacheFileFactory
 	
 	
 	/**
-	 * Méthode permettan de récupérer un objet CacheFile valide.
+	 * Return a valid CacheFile.
 	 *
-	 * @param string $filename
-	 * @param null|string $cache_type
-	 * @param null|string $force_url
-	 * @param null|string $chmod
-	 * @return CacheFile Retourne un objet CacheFile. Si le fichier de cache n'existe pas ou n'a jamais été demandé, un nouvel objet CacheFile est retourné
+	 * @param string $name The name of the entry
+	 * @param null|string $cache_type The type of cache (permit to link to the configurations)
+	 * @param null|string $force_url (optional) The path to a specific cache directory
+	 * @param null|string $chmod (optional) The chmod for any automatically created folder
+	 * @return CacheFile Return a CacheFile object. If the cache file doesn't exist yet, a new CacheFile object is returned.
 	 */
-	public function getCacheFile($filename, $cache_type = '', $force_url = '', $chmod = null)
+	public function getCacheFile($name, $cache_type = '', $force_url = '', $chmod = null)
 	{
 
 		// On vérifie si le type est spécifié et on le met de côté
@@ -62,9 +69,9 @@ class CacheFileFactory
 		
 		
 		if (array_key_exists($type, $this->_cache_files)
-			&& array_key_exists($filename, $this->_cache_files[ $type ])
+			&& array_key_exists($name, $this->_cache_files[ $type ])
 		) {
-			return $this->_cache_files[ $type ][ $filename ];
+			return $this->_cache_files[ $type ][ $name ];
 		}
 		
 		
@@ -97,7 +104,7 @@ class CacheFileFactory
 		
 		// On finit l'url par le nom du fichier et l'extension
 		// déjà calculée en fonction de la configuration
-		$file_url = $folder_url . $filename . $this->cache_extension;
+		$file_url = $folder_url . $name . $this->cache_extension;
 		
 		
 		/* ----- On enregistre la nouvelle entrée ----- */
@@ -109,10 +116,10 @@ class CacheFileFactory
 		}
 		
 		// On enregistre une nouvelle entrée
-		$this->_cache_files[ $type ][ $filename ] = new CacheFile($file_url);
+		$this->_cache_files[ $type ][ $name ] = new CacheFile($file_url);
 		
 		// On retourne l'entrée nouvellement créée
-		return $this->_cache_files[ $type ][ $filename ];
+		return $this->_cache_files[ $type ][ $name ];
 	}
 	
 }

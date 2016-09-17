@@ -35,7 +35,7 @@ class CacheFile
 	/**
 	 * Get the data of the cache element
 	 *
-	 * @return null|mixed
+	 * @return null|mixed Return null if the file doesn't exist
 	 */
 	public function getData()
 	{
@@ -52,7 +52,7 @@ class CacheFile
 	/**
 	 * Set the data of the cache element
 	 *
-	 * @param $data
+	 * @param $data The data to write
 	 */
 	public function setData($data)
 	{
@@ -70,7 +70,7 @@ class CacheFile
 	/**
 	 * Check if the file exist or not
 	 *
-	 * @return boolean
+	 * @return boolean Return True if the file exist or False if not.
 	 */
 	public function isFileExist()
 	{
@@ -82,9 +82,9 @@ class CacheFile
 	
 	
 	/**
-	 * Get the last modified at value of the cache
+	 * Return the last "modified at" value of the cache
 	 *
-	 * @return \DateTime
+	 * @return \DateTime|null A DateTime of the last "modified at" value of the file or null if no file exist.
 	 */
 	public function getModifiedAt()
 	{
@@ -118,7 +118,7 @@ class CacheFile
 	/**
 	 * Chech if the cache element is expired or not
 	 *
-	 * @param DateInterval $interval
+	 * @param DateInterval $interval The delay of expiration
 	 * @return bool True if expired or doesn't exist, false if valid
 	 */
 	public function isExpired(DateInterval $interval)
@@ -138,6 +138,10 @@ class CacheFile
 	}
 	
 	
+	/**
+	 * Return the Absolute parth of the cache file.
+	 * @return string A string with the absolute path
+	 */
 	public function getAbsolutePath()
 	{
 		return realpath($this->path);

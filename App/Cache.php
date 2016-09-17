@@ -15,10 +15,19 @@ class Cache implements CacheInterface
 	static public $_no_delete = 0x4;
 	static public $_force_read = 0x6;
 	static public $_return_class = 0x8;
-	
+
 	protected $_config;
+
+	// The type of the cache (for cache config file).
+	// Let empty or write 'default' for default type.
 	protected $type = '';
+
+	// The cache folder to use.
+	// Note that you can configure this with the cache
+	// config file (the type is required).
 	protected $folder_path = '';
+
+	// The chmod of the cache folder to use if doesn't exist.
 	protected $chmod_folder = 0700;
 	
 	
@@ -26,7 +35,7 @@ class Cache implements CacheInterface
 	/**
 	 * Cache constructor.
 	 *
-	 * @param null|string $url The url to use a different cache folder
+	 * @param null|string $url (optionnal) The url to use a different cache folder
 	 */
 	public function __construct($url = '')
 	{
@@ -38,10 +47,11 @@ class Cache implements CacheInterface
 	
 	
 	/**
-	 * @param string $name
-	 * @param null|int|bool $expire The expire time in seconds
-	 * @param null|int $flags
-	 * @return mixed|null
+	 * Read a cache entry. If expired, the entry is deleted
+	 * @param string $name The name of the cache entry
+	 * @param null|int|bool (optional) $expire The expire time in seconds. A False value prevent expiration, True force it
+	 * @param int|null $flags (optional) The flag to modify the behaviours
+	 * @return string|null Return the value of the cache or null if the cache file is not valid
 	 */
 	public function read($name, $expire = null, $flags = null)
 	{
@@ -59,6 +69,13 @@ class Cache implements CacheInterface
 	}
 	
 	
+	/**
+	 * Write a cache entry and return the value (or CacheFile)
+	 * @param string $name The name of the cache entry
+	 * @param null|string|int (optional) $value The value to fill the cache
+	 * @param int|null $flags (optional) Flags to modify how behave the method
+	 * @return CacheFile|mixed Return the value of the cache entry, or a CacheFile with "_return_class" flag
+	 */
 	public function write($name, $value = null, $flags = null)
 	{
 		$cache_file = $this->getFileCache($name);
@@ -70,6 +87,14 @@ class Cache implements CacheInterface
 	}
 	
 	
+	/**
+	 * Read a cache entry. If expired the entry is written with the $toWrite parameter.
+	 * @param string $name
+	 * @param string|callable $toWrite The value to write or function to execute. The return value of the function is written, except if some flags are returned.
+	 * @param int|null $expire (optional) The expire delay
+	 * @param int|null $flags (optional)
+	 * @return CacheFile|mixed|null|string Return the value of the entry or the value passed through $toWrite. If "_return_class" is given, a CacheFile object is returned.
+	 */
 	public function readOrWrite($name, $toWrite, $expire = null, $flags = null)
 	{
 		
@@ -101,7 +126,7 @@ class Cache implements CacheInterface
 	/**
 	 * Remove a cache element
 	 *
-	 * @param string $name
+	 * @param string $name The entry name
 	 */
 	public function remove($name)
 	{
@@ -110,6 +135,12 @@ class Cache implements CacheInterface
 	}
 	
 	
+	/**
+	 * Check if an entry is expired or not
+	 * @param string $name The entry name
+	 * @param int|null $expire (optional)
+	 * @return bool Return True if expired, False if not
+	 */
 	public function isCacheEntryExpired($name, $expire = null)
 	{
 		$cache_file = $this->getFileCache($name);
@@ -122,19 +153,26 @@ class Cache implements CacheInterface
 	
 	
 	/**
-	 * @param $filename string
+	 * Return the CacheFile class of and entry
+	 * @param string $name The entry name
 	 * @return CacheFile
 	 */
-	public function getFileCache($filename)
+	public function getFileCache($name)
 	{
-		return CacheFileFactory::getInstance()->getCacheFile($filename,
+		return CacheFileFactory::getInstance()->getCacheFile($name,
 			$this->type,
 			$this->folder_path,
 			$this->chmod_folder);
 	}
 	
 	
-	protected function isCacheFileValid(CacheFile $cache_file, $expire, $flags = null)
+	/**
+	 * Check if a CacheFile is valid or not.
+	 * @param CacheFile $cache_file The CacheFile to check
+	 * @param int|bool $expire The expiration delay. False value equal to no expire, True to expire
+	 * @return bool Return True if the file is valid, False if invalid
+	 */
+	protected function isCacheFileValid(CacheFile $cache_file, $expire)
 	{
 		if (is_null($expire))
 			$expire = $this->_config->default_expired_time;
@@ -147,9 +185,10 @@ class Cache implements CacheInterface
 	
 	
 	/**
-	 * @param CacheFile $cache_file
-	 * @param int $sec_interval
-	 * @return bool
+	 * Verify if a CacheFile is expired or not
+	 * @param CacheFile $cache_file The CacheFile to check
+	 * @param int $sec_interval The expiration delay (expiration date is computed from the last modified date)
+	 * @return bool Return True if the CacheFile is expired, False if not.
 	 */
 	protected function isCacheFileExpired(CacheFile $cache_file, $sec_interval)
 	{
