@@ -58,7 +58,7 @@ class Cache implements CacheInterface
 	{
 		$cache_file = $this->getFileCache($name);
 		
-		if (!$this->isCacheFileExpired($cache_file, $expire)) {
+		if ($this->isCacheFileExpired($cache_file, $expire)) {
 			
 			if (!$flags & self::$_no_delete)
 				$this->remove($name);
@@ -184,10 +184,8 @@ class Cache implements CacheInterface
 		if (is_bool($expire))
 			return $expire;
 
-		if (!is_int($expire)) {
+		if (!is_int($expire))
 			throw new InvalidArgumentException();
-			return false;
-		}
 
 		switch ($this->_config->mode) {
 			case 'production' :
