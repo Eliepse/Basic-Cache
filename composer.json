@@ -1,7 +1,7 @@
 {
     "name": "eliepse/basic-cache",
     "description": "A very simple cache system",
-	"version": "0.3.2",
+	"version": "0.3.3",
     "type": "library",
     "license": "MIT",
     "authors": [
