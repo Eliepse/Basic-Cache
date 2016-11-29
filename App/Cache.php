@@ -184,10 +184,8 @@ class Cache implements CacheInterface
 		if (is_bool($expire))
 			return $expire;
 
-		if (!is_int($expire)) {
+		if (!is_int($expire))
 			throw new InvalidArgumentException();
-			return false;
-		}
 
 		switch ($this->_config->mode) {
 			case 'production' :
